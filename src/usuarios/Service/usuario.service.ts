@@ -1,16 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
-import { Usuario } from '../entities/usuario.entity';
-import { CreateUsuarioDto } from '../Dtos/create-usuario.dto';  
-import { UpdateUsuarioDto } from '../Dtos/update-usuario.dto'; 
+import { Injectable, NotFoundException, UseGuards } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { ILike, Repository } from "typeorm";
+import { CreateUsuarioDto } from "../dtos/create-usuario.dto";
+import { UpdateUsuarioDto } from "../dtos/update-usuario.dto";
+import { Usuario } from "../entities/usuario.entity";
 
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>,
-  ) {}
+  ) { }
 
   async cadastrar(createDto: CreateUsuarioDto): Promise<Usuario> {
     const usuario = this.usuarioRepository.create(createDto);
@@ -36,23 +36,13 @@ export class UsuariosService {
 
   async listarPorNome(nome: string): Promise<Usuario[]> {
     return this.usuarioRepository.find({
-      where: { nome: Like(`%${nome}%`) },
+      where: { nome: ILike(`%${nome}%`) },
     });
   }
 
-  async autenticar(email: string, senha: string): Promise<Usuario | null> {
-    const usuario = await this.usuarioRepository.findOne({ where: { email } });
-    if (usuario && usuario.autenticar(email, senha)) {
-      return usuario;
-    }
-    return null;
-  }
-
-  async remover(id: number): Promise<void> {
-    const usuarioExistente = await this.usuarioRepository.findOne({ where: { id } });
-    if (!usuarioExistente) {
-      throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
-    }
-    await this.usuarioRepository.remove(usuarioExistente);
+  async buscarUsuario(usuario: string): Promise<Usuario | null> {
+    return await this.usuarioRepository.findOne({
+      where: { usuario }
+    });
   }
 }

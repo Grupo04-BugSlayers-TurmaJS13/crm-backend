@@ -6,9 +6,6 @@ export class CreateUsuarioDto {
 
     @IsEmail()
     @IsNotEmpty()
-    email: string;
-
-    @IsNotEmpty()
     @Length(3, 255)
     usuario: string;
 

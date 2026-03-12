@@ -1,9 +1,10 @@
-import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Body, Put, Delete } from "@nestjs/common";
+import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Body, Put, Delete, UseGuards } from "@nestjs/common";
 import { OportunidadeService } from "../services/oportunidades.service";
 import { Oportunidade } from "../entities/oportunidades.entity";
 import { StatusControle } from "../../util/statusControle";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
-
+@UseGuards(JwtAuthGuard)
 @Controller("/oportunidades")
 export class OportunidadeController{
     constructor(

@@ -1,8 +1,10 @@
 import { Transform, TransformFnParams } from "class-transformer";
 import { IsNotEmpty, IsPositive, IsNumber, IsEnum } from "class-validator";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { StatusControle } from "../../util/statusControle";
 import { NumericTransformer } from "../../util/numericTransform";
+import { Cliente } from "../../cliente/entities/cliente.entity";
+import { Usuario } from "../../usuarios/entities/usuario.entity";
 
 
 
@@ -30,6 +32,10 @@ export class Oportunidade{
 
     @UpdateDateColumn() // Atualza a data na criação e na atualização
     data: Date;
-    usuario: any;
 
+    @ManyToOne(() => Cliente, (cliente) => cliente.oportunidades)
+    cliente: Cliente
+
+    @ManyToOne(() => Usuario, (usuario) => usuario.oportunidades)
+    usuario: Usuario
 }
