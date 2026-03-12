@@ -1,4 +1,4 @@
-# Nome do Projeto - RH Manager
+# Nome do Projeto - Conecta CRM
 
 <br />
 
