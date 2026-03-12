@@ -3,8 +3,9 @@ import { IsNotEmpty, IsPositive, IsNumber, IsEnum } from "class-validator";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { StatusControle } from "../../util/statusControle";
 import { NumericTransformer } from "../../util/numericTransform";
-import { Usuario } from "../../usuarios/entities/usuario.entity";
+
 import { Cliente } from "../../cliente/entities/cliente.entity";
+import { Usuario } from "../../usuario/entities/usuario.entity";
 
 
 
@@ -36,7 +37,7 @@ export class Oportunidade{
     @ManyToOne(() => Cliente, (cliente) => cliente.oportunidades)
     cliente: Cliente;
     
-    @ManyToOne(() => Usuario, (usuario) => usuario.oportunidades)
+    @ManyToOne(() => Usuario, (usuario) => usuario.oportunidade)
     usuario: Usuario;
 
 }

@@ -3,9 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Cliente } from './cliente/entities/cliente.entity';
 import { ClienteModule } from './cliente/cliente.module';
 import { Oportunidade } from './oportunidades/entities/oportunidades.entity';
-import { Usuario } from './usuarios/entities/usuario.entity';
+
 import { OportunidadeModule } from './oportunidades/oportunidades.module';
-import { UsuariosModule } from './usuarios/usuario.module';
+
+import { AuthModule } from './auth/auth.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { Usuario } from './usuario/entities/usuario.entity';
 
 
 @Module({
@@ -22,7 +25,8 @@ import { UsuariosModule } from './usuarios/usuario.module';
       }),
       ClienteModule,
       OportunidadeModule,
-      UsuariosModule
+      UsuarioModule,
+      AuthModule
   ],
   controllers: [],
   providers: [],
