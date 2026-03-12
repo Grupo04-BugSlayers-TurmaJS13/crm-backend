@@ -43,8 +43,8 @@ export class UsuariosController {
     return this.service.autenticar(body.email, body.senha);
   }
 
-  @Delete(':id')
-  remover(@Param('id', ParseIntPipe) id: number) {
-    return this.service.remover(id);
-  }
+  // @Delete(':id')
+  // remover(@Param('id', ParseIntPipe) id: number) {
+  //   return this.service.remover(id);
+  // }
 }
