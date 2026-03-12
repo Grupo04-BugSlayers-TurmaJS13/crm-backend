@@ -32,7 +32,9 @@ export class UsuariosService {
   }
 
   async listarUsuarios(): Promise<Usuario[]> {
-    return await this.usuarioRepository.find({ relations: ['oportunidades'] });
+    return await this.usuarioRepository.find({relations:{
+        oportunidades: true
+            }  });
   }
 
   async listarUsuariosId(id: number): Promise<Usuario> {
@@ -42,7 +44,10 @@ export class UsuariosService {
 
     const usuario = await this.usuarioRepository.findOne({
       where: { id },
-      relations: ['oportunidades'],
+      relations:{
+        oportunidades: true
+            },
+      
     });
 
     if (!usuario) {
@@ -55,7 +60,9 @@ export class UsuariosService {
   async listarPorNome(nome: string): Promise<Usuario[]> {
     return await this.usuarioRepository.find({
       where: { nome: Like(`%${nome}%`) },
-      relations: ['oportunidades'],
+      relations:{
+        oportunidades: true
+            },
     });
   }
   async autenticar(email: string, senha: string): Promise<Usuario | null> {

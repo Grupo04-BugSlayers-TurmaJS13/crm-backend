@@ -18,7 +18,12 @@ export class OportunidadeService{
 
     async findAll():  Promise<Oportunidade[]>{
         // SELECT * FROM tb_oportunidades;
-        return this.oportunidadeRepository.find();
+        return this.oportunidadeRepository.find({
+            relations:{
+                cliente: true,
+                usuario: true
+            }
+        });
     }
 
     
@@ -27,6 +32,10 @@ export class OportunidadeService{
         const oportunidade = await this.oportunidadeRepository.findOne({
             where:{
                 id
+            },
+            relations:{
+                cliente: true,
+                usuario: true
             }
         })
 

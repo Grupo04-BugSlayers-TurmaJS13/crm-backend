@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Oportunidade } from '../../oportunidades/entities/oportunidades.entity';
 //import { Oportunidade } from '../../oportunidades/entities/oportunidade.entity';
 
-@Entity('usuarios')
+@Entity('tb_usuarios')
 export class Usuario {
     @PrimaryGeneratedColumn({ type: 'bigint'})
     id: number;
@@ -21,8 +22,8 @@ export class Usuario {
     @Column({ length: 500, nullable: true})
     foto: string;
 
-    //@OneToMany(() => Oportunidade, (oportunidade) => oportunidade.usuario)
-    //oportunidades: Oportunidade[];
+    @OneToMany(() => Oportunidade, (oportunidade) => oportunidade.usuario)
+    oportunidades: Oportunidade[];
 
     autenticar(email: string, senha: string): boolean {
         return this.email === email && this.senha === senha;
