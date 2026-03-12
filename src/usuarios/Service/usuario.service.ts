@@ -1,0 +1,58 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, Like } from 'typeorm';
+import { Usuario } from '../entities/usuario.entity';
+import { CreateUsuarioDto } from '../Dtos/create-usuario.dto';  
+import { UpdateUsuarioDto } from '../Dtos/update-usuario.dto'; 
+
+@Injectable()
+export class UsuariosService {
+  constructor(
+    @InjectRepository(Usuario)
+    private readonly usuarioRepository: Repository<Usuario>,
+  ) {}
+
+  async cadastrar(createDto: CreateUsuarioDto): Promise<Usuario> {
+    const usuario = this.usuarioRepository.create(createDto);
+    return this.usuarioRepository.save(usuario);
+  }
+
+  async atualizar(id: number, updateDto: UpdateUsuarioDto): Promise<Usuario> {
+    const usuarioExistente = await this.usuarioRepository.findOne({ where: { id } });
+    if (!usuarioExistente) {
+      throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
+    }
+    Object.assign(usuarioExistente, updateDto);
+    return this.usuarioRepository.save(usuarioExistente);
+  }
+
+  async listarUsuarios(): Promise<Usuario[]> {
+    return this.usuarioRepository.find();
+  }
+
+  async listarUsuariosId(id: number): Promise<Usuario | null> {
+    return this.usuarioRepository.findOne({ where: { id } });
+  }
+
+  async listarPorNome(nome: string): Promise<Usuario[]> {
+    return this.usuarioRepository.find({
+      where: { nome: Like(`%${nome}%`) },
+    });
+  }
+
+  async autenticar(email: string, senha: string): Promise<Usuario | null> {
+    const usuario = await this.usuarioRepository.findOne({ where: { email } });
+    if (usuario && usuario.autenticar(email, senha)) {
+      return usuario;
+    }
+    return null;
+  }
+
+  async remover(id: number): Promise<void> {
+    const usuarioExistente = await this.usuarioRepository.findOne({ where: { id } });
+    if (!usuarioExistente) {
+      throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
+    }
+    await this.usuarioRepository.remove(usuarioExistente);
+  }
+}
