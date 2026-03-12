@@ -7,7 +7,6 @@ import { UsuariosService } from '../Service/usuario.service';
 export class UsuariosController {
   constructor(private readonly service: UsuariosService) {}
 
-  // UML: +cadastrar() : post
   @Post()
   cadastrar(@Body() createDto: CreateUsuarioDto) {
     return this.service.cadastrar(createDto);
@@ -41,10 +40,5 @@ export class UsuariosController {
     @Body() body: { email: string; senha: string },
   ) {
     return this.service.autenticar(body.email, body.senha);
-  }
-
-  @Delete(':id')
-  remover(@Param('id', ParseIntPipe) id: number) {
-    return this.service.remover(id);
   }
 }
