@@ -9,16 +9,14 @@ import { ClienteModule } from './cliente/cliente.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '1306', 
-      database: 'db_conecta_crm',
-      entities: [Usuario, Oportunidade, Cliente],
-      synchronize: true,
-    }),
+TypeOrmModule.forRoot({
+  type: 'mysql',
+  host: 'localhost',
+  port: 3306,
+  username: 'root',
+  password: '', 
+  database: 'db_conecta_crm',
+}),
     UsuariosModule,
     OportunidadeModule,
     ClienteModule,

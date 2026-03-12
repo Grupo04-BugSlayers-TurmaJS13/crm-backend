@@ -30,5 +30,6 @@ export class Oportunidade{
 
     @UpdateDateColumn() // Atualza a data na criação e na atualização
     data: Date;
+    usuario: any;
 
 }
