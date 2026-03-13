@@ -1,17 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-  ParseIntPipe,
-  Query,
-  UseGuards,
-  HttpCode,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, ParseIntPipe, Query, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
 import { CreateUsuarioDto } from '../dtos/create-usuario.dto';
 import { UpdateUsuarioDto } from '../dtos/update-usuario.dto';
 import { UsuariosService } from '../service/usuario.service';
@@ -21,7 +8,6 @@ import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 export class UsuariosController {
   constructor(private readonly service: UsuariosService) { }
 
-  // UML: +cadastrar() : post
   @Post('/cadastrar')
   @HttpCode(HttpStatus.CREATED)
   cadastrar(@Body() createDto: CreateUsuarioDto) {
