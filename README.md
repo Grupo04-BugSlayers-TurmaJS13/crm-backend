@@ -72,7 +72,7 @@ Para rodar o projeto localmente, siga os passos abaixo:
 ### 5.2. Passo a Passo
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/Grupo04-BugSlayers-TurmaJS13/Docs.git
+   git clone https://github.com/Grupo04-BugSlayers-TurmaJS13/crm-backend.git
    ```
 2. **Acesse a pasta do projeto:**
    ```bash
