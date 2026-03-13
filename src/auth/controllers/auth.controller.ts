@@ -6,8 +6,8 @@ import { AuthService } from '../service/auth.service';
 @Controller("/usuarios")
 export class AuthController {
     constructor(private authService: AuthService) { }
-
-    @UseGuards(LocalAuthGuard) // endpoint de login protegido pela estrategy
+    
+// endpoint de login protegido pela estrategy
     @HttpCode(HttpStatus.OK)
     @Post('/logar')
     login(@Body() usuario: UsuarioLogin): Promise<any> {

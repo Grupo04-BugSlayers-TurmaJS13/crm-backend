@@ -17,12 +17,12 @@ import { UpdateUsuarioDto } from '../dtos/update-usuario.dto';
 import { UsuariosService } from '../service/usuario.service';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
-@Controller('usuarios')
+@Controller('/usuarios')
 export class UsuariosController {
   constructor(private readonly service: UsuariosService) { }
 
   // UML: +cadastrar() : post
-  @Post()
+  @Post('/cadastrar')
   @HttpCode(HttpStatus.CREATED)
   cadastrar(@Body() createDto: CreateUsuarioDto) {
     return this.service.cadastrar(createDto);

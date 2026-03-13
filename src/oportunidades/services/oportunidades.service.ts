@@ -1,11 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, Like, DeleteResult, LessThan, MoreThan } from "typeorm";
+import { Repository, DeleteResult, LessThan, MoreThan, ILike } from "typeorm";
 import { Oportunidade } from "../entities/oportunidades.entity";
 import { StatusControle } from "../../util/statusControle";
-
-
-
 
 @Injectable()
 export class OportunidadeService{
@@ -18,16 +15,24 @@ export class OportunidadeService{
 
     async findAll():  Promise<Oportunidade[]>{
         // SELECT * FROM tb_oportunidades;
-        return this.oportunidadeRepository.find();
+        return this.oportunidadeRepository.find({
+            relations: { usuario: true, cliente: true}
+        });
     }
 
+    async findAllByServico(titulo: string): Promise<Oportunidade[]> {
+        // SELECT * FROM tb_postagens WHERE titulo LIKE '%titulo%'
+        return this.oportunidadeRepository.find({
+            where: { servico: ILike(`%${titulo}%`)},
+            relations: { usuario: true, cliente: true }
+        })
+    }
     
     async findByid(id: number): Promise<Oportunidade>{
         // SELECT * FROM tb_oportunidades where id = ? ;
         const oportunidade = await this.oportunidadeRepository.findOne({
-            where:{
-                id
-            }
+            where:{ id },
+            relations: { usuario: true, cliente: true}
         })
 
         if(!oportunidade)
@@ -36,11 +41,8 @@ export class OportunidadeService{
         return oportunidade;
     }
 
-    
-    
     async create(oportunidade: Oportunidade): Promise<Oportunidade>{
 
-        
         this.verificarStatusValido(oportunidade.status);
         //INSERT INTO tb_oportunidades (nome, texto) VALUES(?, ?);
         return await this.oportunidadeRepository.save(oportunidade);
@@ -70,7 +72,7 @@ export class OportunidadeService{
 
     async updateStatus(id: number, status: StatusControle): Promise<Oportunidade>{
         
-         if(!id || id <= 0)
+        if(!id || id <= 0)
             throw new HttpException("O ID da oportunidade é inválido!", HttpStatus.BAD_REQUEST);
 
 
