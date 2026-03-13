@@ -100,4 +100,4 @@ O servidor estará rodando em: `http://localhost:4000` (ou a porta configurada).
 ---
 
 ## Contribuição
-Este é um projeto de código aberto e as contribuições são bem-vindas. Para saber como contribuir, por favor, consulte o nosso [Guia de Contribuição](contributing.md).
+Este é um projeto de código aberto e as contribuições são bem-vindas. Para saber como contribuir, por favor, consulte o nosso [Guia de Contribuição](CONTRIBUTING.md).

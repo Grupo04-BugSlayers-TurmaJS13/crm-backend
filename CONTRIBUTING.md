@@ -55,5 +55,5 @@ O formato é: `<tipo>(<escopo>): <descrição>`
 -   **Clarisse Rodrigues** - GitHub: [clarodriguess](https://github.com/clarodriguess) | Linkedin: [bia-caetano](http://www.linkedin.com/in/bia-caetano)
 -   **Gabriela Almeida** - GitHub: [Gaalmeida-dev](https://github.com/Gaalmeida-dev) | Linkedin: [gabriela-almeida](https://www.linkedin.com/in/gabriela-almeida-escalera-dos-santos-27022b3a0/)
 -   **Nathalia Scalercio** - GitHub: [nathscalercio](https://github.com/nathscalercio) | LinkedIn: [nathalia-scalercio](http://linkedin.com/in/nathalia-scalercio/?lipi=urn%3Ali%3Apage%3Ad_flagship3_people%3BhfLnGQyITMKdQ2x5XL0GTg%3D%3D)
--   **Leonardo Botelho** - GitHub: [Botelhool](https://github.com/Botelhool) | Linkedin: [Botelhool (GitHub)](https://github.com/Botelhool)
+-   **Leonardo Botelho** - GitHub: [Botelhool](https://github.com/Botelhool) | Linkedin: [LEONARDO BOTELHO](https://www.linkedin.com/in/gabriela-almeida-escalera-dos-santos-27022b3a0/)
 -   **Ramon Alberto** - GitHub: [RAMONBRX](https://github.com/RAMONBRX) | Linkedin: [ramon-alberto](https://www.linkedin.com/in/ramon-alberto/)
