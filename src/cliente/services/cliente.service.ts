@@ -12,8 +12,9 @@ export class ClienteService {
     ){}
 
     //lista tds os clientes
-     async findAll(): Promise<Cliente[]> {
+    async findAll(): Promise<Cliente[]> {
         return await this.clienteRepository.find({
+            relations: { oportunidades: true }
         });
     }
 
@@ -21,7 +22,8 @@ export class ClienteService {
     async findById(id: number): Promise<Cliente> {
 
         const cliente = await this.clienteRepository.findOne({
-            where: { id }	
+            where: { id },
+            relations: { oportunidades: true }
         });
 
         if (!cliente)
@@ -34,7 +36,8 @@ export class ClienteService {
         return await this.clienteRepository.find({
             where: {
                 nome: ILike(`%${nome}%`) //select * from tb_produtos where nome like '%nome%'
-            }
+            },
+            relations: { oportunidades: true }
         });
     }
 

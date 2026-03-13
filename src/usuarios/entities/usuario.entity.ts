@@ -1,30 +1,34 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Oportunidade } from '../../oportunidades/entities/oportunidades.entity';
+import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 
-@Entity('usuarios')
+@Entity('tb_usuarios')
 export class Usuario {
-    @PrimaryGeneratedColumn({ type: 'bigint'})
+    @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
 
-    @Column({ length: 255})
+    @IsNotEmpty()
+    @Length(3, 60, { message: "O nome deve conter no mínimo 3 caracteres" })
+    @Column()
     nome: string;
 
-    @Column({ length: 255})
-    email: string;
-
+    @IsEmail()
+    @IsNotEmpty()
     @Column({ length: 255, name: 'usuario' })
     usuario: string;
 
-    @Column({ length: 20})
+    @IsNotEmpty()
+    @Length(8, 60, { message: "A senha deve conter no mínimo 8 caracteres" })
+    @Column({ nullable: false })
     senha: string;
 
-    @Column({ length: 500, nullable: true})
+    @Column({ length: 500, nullable: true })
     foto: string;
 
     @OneToMany(() => Oportunidade, (oportunidade) => oportunidade.usuario)
     oportunidades: Oportunidade[];
 
-    autenticar(email: string, senha: string): boolean {
-        return this.email === email && this.senha === senha;
+    autenticar(usuario: string, senha: string): boolean {
+        return this.usuario === usuario && this.senha === senha;
     }
 }

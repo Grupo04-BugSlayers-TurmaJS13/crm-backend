@@ -1,9 +1,11 @@
-import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Body, Put, Delete } from "@nestjs/common";
+import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Body, Put, Delete, UseGuards } from "@nestjs/common";
 import { OportunidadeService } from "../services/oportunidades.service";
 import { Oportunidade } from "../entities/oportunidades.entity";
 import { StatusControle } from "../../util/statusControle";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { Http2ServerRequest } from "http2";
 
-
+@UseGuards(JwtAuthGuard)
 @Controller("/oportunidades")
 export class OportunidadeController{
     constructor(
@@ -22,7 +24,12 @@ export class OportunidadeController{
         return this.oportunidadeService.findByid(id);
     }
 
-
+    @Get("/servico/:servico")
+    @HttpCode(HttpStatus.OK)
+    findAllByServico(@Param('servico') servico : string): Promise<Oportunidade[]> {
+        return this.oportunidadeService.findAllByServico(servico);
+    }
+    
     @Post()
     @HttpCode(HttpStatus.CREATED)
     create(@Body() oportunidade: Oportunidade): Promise<Oportunidade>{

@@ -1,29 +1,46 @@
 import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OportunidadeModule } from './oportunidades/oportunidades.module';
-import { Usuario } from './usuarios/entities/usuario.entity';
-import { Oportunidade } from './oportunidades/entities/oportunidades.entity';
-import { UsuariosModule } from './usuarios/usuario.module';
-import { Cliente } from './cliente/entities/cliente.entity';
+import { AuthModule } from './auth/auth.module';
 import { ClienteModule } from './cliente/cliente.module';
+import { OportunidadeModule } from './oportunidades/oportunidades.module';
+import { Cliente } from './cliente/entities/cliente.entity';
+import { Oportunidade } from './oportunidades/entities/oportunidades.entity';
+import { Usuario } from './usuarios/entities/usuario.entity';
+import { UsuariosModule } from './usuarios/usuario.module';
 
 @Module({
+
   imports: [
-TypeOrmModule.forRoot({
-  type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: 'root', 
-  database: 'crm_db',
-  entities: [Usuario, Oportunidade, Cliente], 
-  synchronize: true, 
-}),
-    UsuariosModule,
-    OportunidadeModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get("DB_HOST"),
+        port: configService.get('DB_PORT'),
+        username: configService.get("DB_USERNAME"),
+        password: configService.get("DB_PASSWORD"),
+        database: configService.get("DB_DATABASE"),
+        entities: [Cliente, Oportunidade, Usuario],
+        synchronize: true,
+        logging: true,
+      }),
+    }),
     ClienteModule,
+    OportunidadeModule,
+    UsuariosModule,
+    AuthModule
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
+
 export class AppModule {}

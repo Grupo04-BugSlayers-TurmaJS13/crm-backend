@@ -1,58 +1,87 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
-import { Usuario } from '../entities/usuario.entity';
-import { CreateUsuarioDto } from '../Dtos/create-usuario.dto';  
-import { UpdateUsuarioDto } from '../Dtos/update-usuario.dto'; 
+import { HttpException, HttpStatus, Injectable, NotFoundException, UseGuards } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { ILike, Repository } from "typeorm";
+import { CreateUsuarioDto } from "../dtos/create-usuario.dto";
+import { UpdateUsuarioDto } from "../dtos/update-usuario.dto";
+import { Usuario } from "../entities/usuario.entity";
+import { Bcrypt } from "../../auth/bcrypt/bcrypt";
 
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
-    private readonly usuarioRepository: Repository<Usuario>,
-  ) {}
+    private usuarioRepository: Repository<Usuario>,
+    private bcrypt: Bcrypt
+  ) { }
 
   async cadastrar(createDto: CreateUsuarioDto): Promise<Usuario> {
+
+    const buscaUsuario = await this.usuarioRepository.findOne({
+      where: { usuario: createDto.usuario }
+    });
+
+    if (buscaUsuario)
+      throw new HttpException(
+        "O usuário já existe!",
+        HttpStatus.BAD_REQUEST
+      );
+
+    createDto.senha = await this.bcrypt.criptografarSenha(createDto.senha);
+
     const usuario = this.usuarioRepository.create(createDto);
-    return this.usuarioRepository.save(usuario);
+
+    return await this.usuarioRepository.save(usuario);
   }
 
   async atualizar(id: number, updateDto: UpdateUsuarioDto): Promise<Usuario> {
-    const usuarioExistente = await this.usuarioRepository.findOne({ where: { id } });
+    // Busca o usuário existente
+    const usuarioExistente = await this.usuarioRepository.findOne({
+      where: { id },
+    });
+
     if (!usuarioExistente) {
       throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
     }
+
+    // Criptografa a senha se ela for passada no update
+    if (updateDto.senha) {
+      console.log('Senha antes de criptografar:', updateDto.senha);
+      updateDto.senha = await this.bcrypt.criptografarSenha(updateDto.senha);
+      console.log('Senha após criptografar:', updateDto.senha);
+    }
+
     Object.assign(usuarioExistente, updateDto);
-    return this.usuarioRepository.save(usuarioExistente);
+
+    // Salva o usuário atualizado no banco
+    const usuarioAtualizado = await this.usuarioRepository.save(usuarioExistente);
+
+    return usuarioAtualizado;
   }
 
   async listarUsuarios(): Promise<Usuario[]> {
-    return this.usuarioRepository.find();
+    return this.usuarioRepository.find({
+      relations: { oportunidades: true }
+    });
   }
 
   async listarUsuariosId(id: number): Promise<Usuario | null> {
-    return this.usuarioRepository.findOne({ where: { id } });
+    return this.usuarioRepository.findOne({
+      where: { id },
+      relations: { oportunidades: true }
+    });
   }
 
   async listarPorNome(nome: string): Promise<Usuario[]> {
     return this.usuarioRepository.find({
-      where: { nome: Like(`%${nome}%`) },
+      where: { nome: ILike(`%${nome}%`) },
+      relations: { oportunidades: true }
     });
   }
 
-  async autenticar(email: string, senha: string): Promise<Usuario | null> {
-    const usuario = await this.usuarioRepository.findOne({ where: { email } });
-    if (usuario && usuario.autenticar(email, senha)) {
-      return usuario;
-    }
-    return null;
-  }
-
-  async remover(id: number): Promise<void> {
-    const usuarioExistente = await this.usuarioRepository.findOne({ where: { id } });
-    if (!usuarioExistente) {
-      throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
-    }
-    await this.usuarioRepository.remove(usuarioExistente);
+  async buscarUsuario(usuario: string): Promise<Usuario | null> {
+    return this.usuarioRepository.findOne({
+      where: { usuario },
+      relations: { oportunidades: true }
+    });
   }
 }

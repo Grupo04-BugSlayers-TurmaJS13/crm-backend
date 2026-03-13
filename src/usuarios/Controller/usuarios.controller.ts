@@ -1,18 +1,22 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe, Query } from '@nestjs/common';
-import { CreateUsuarioDto } from '../Dtos/create-usuario.dto';
-import { UpdateUsuarioDto } from '../Dtos/update-usuario.dto';
-import { UsuariosService } from '../Service/usuario.service';
+import { Controller, Get, Post, Put, Body, Param, ParseIntPipe, Query, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import { CreateUsuarioDto } from '../dtos/create-usuario.dto';
+import { UpdateUsuarioDto } from '../dtos/update-usuario.dto';
+import { UsuariosService } from '../service/usuario.service';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
-@Controller('usuarios')
+@Controller('/usuarios')
 export class UsuariosController {
-  constructor(private readonly service: UsuariosService) {}
+  constructor(private readonly service: UsuariosService) { }
 
-  @Post()
+  @Post('/cadastrar')
+  @HttpCode(HttpStatus.CREATED)
   cadastrar(@Body() createDto: CreateUsuarioDto) {
     return this.service.cadastrar(createDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
+  @HttpCode(HttpStatus.OK)
   atualizar(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDto: UpdateUsuarioDto,
@@ -21,24 +25,20 @@ export class UsuariosController {
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   listarUsuarios() {
     return this.service.listarUsuarios();
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   listarUsuariosId(@Param('id', ParseIntPipe) id: number) {
     return this.service.listarUsuariosId(id);
   }
 
   @Get('por-nome')
+  @HttpCode(HttpStatus.OK)
   listarPorNome(@Query('nome') nome: string) {
     return this.service.listarPorNome(nome);
-  }
-
-  @Post('autenticar')
-  autenticar(
-    @Body() body: { email: string; senha: string },
-  ) {
-    return this.service.autenticar(body.email, body.senha);
   }
 }

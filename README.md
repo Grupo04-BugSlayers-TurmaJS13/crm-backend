@@ -1,4 +1,6 @@
-# Conecta CRM - API 
+# Nome do Projeto - Conecta CRM
+
+<br />
 
 <div align="center">
     <img src="./assets/logo_conecta_crm.png" alt="Conecta CRM Logo" width="300px" />

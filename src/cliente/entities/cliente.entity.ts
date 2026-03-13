@@ -1,6 +1,7 @@
 import { Transform, TransformFnParams } from "class-transformer"
 import { IsEmail, IsNotEmpty } from "class-validator"
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Oportunidade } from "../../oportunidades/entities/oportunidades.entity"
 
 
 @Entity({name: 'tb_clientes'})
@@ -29,7 +30,7 @@ export class Cliente {
     @Column({length: 500}) 
     sites: string
 
-    // @OneToMany(() => Oportunidade, (oportunidade) => oportunidade.cliente)
-    //oportunidades: Oportunidade[]
+    @OneToMany(() => Oportunidade, (oportunidade) => oportunidade.cliente)
+    oportunidades: Oportunidade[]
 
 }
