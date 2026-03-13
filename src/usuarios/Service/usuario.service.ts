@@ -33,26 +33,26 @@ export class UsuariosService {
     return await this.usuarioRepository.save(usuario);
   }
 
-  async atualizar(id: number, updateDto: UpdateUsuarioDto): Promise<Usuario> {
-    // Busca o usuário existente
+  async atualizar(updateDto: UpdateUsuarioDto): Promise<Usuario> {
+    if (!updateDto.id) {
+      throw new NotFoundException('ID do usuário não informado');
+    }
+
     const usuarioExistente = await this.usuarioRepository.findOne({
-      where: { id },
+      where: { id: updateDto.id },
     });
 
     if (!usuarioExistente) {
-      throw new NotFoundException(`Usuario com ID ${id} não encontrado`);
+      throw new NotFoundException(`Usuario com ID ${updateDto.id} não encontrado`);
     }
 
-    // Criptografa a senha se ela for passada no update
+    // Criptografa a senha apenas se estiver sendo atualizada
     if (updateDto.senha) {
-      console.log('Senha antes de criptografar:', updateDto.senha);
       updateDto.senha = await this.bcrypt.criptografarSenha(updateDto.senha);
-      console.log('Senha após criptografar:', updateDto.senha);
     }
 
     Object.assign(usuarioExistente, updateDto);
 
-    // Salva o usuário atualizado no banco
     const usuarioAtualizado = await this.usuarioRepository.save(usuarioExistente);
 
     return usuarioAtualizado;

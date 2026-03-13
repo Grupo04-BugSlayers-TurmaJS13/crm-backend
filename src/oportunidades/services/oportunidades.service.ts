@@ -16,12 +16,12 @@ export class OportunidadeService{
     async findAll():  Promise<Oportunidade[]>{
         // SELECT * FROM tb_oportunidades;
         return this.oportunidadeRepository.find({
-            relations: { usuario: true, cliente: true}
+            relations: ["usuario", "cliente"]
         });
     }
 
     async findAllByServico(titulo: string): Promise<Oportunidade[]> {
-        // SELECT * FROM tb_postagens WHERE titulo LIKE '%titulo%'
+        // SELECT * FROM tb_postagens WHERE titulo ILIKE '%titulo%'
         return this.oportunidadeRepository.find({
             where: { servico: ILike(`%${titulo}%`)},
             relations: { usuario: true, cliente: true }

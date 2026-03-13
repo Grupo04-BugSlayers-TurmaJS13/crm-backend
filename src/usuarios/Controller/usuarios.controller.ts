@@ -3,6 +3,7 @@ import { CreateUsuarioDto } from '../dtos/create-usuario.dto';
 import { UpdateUsuarioDto } from '../dtos/update-usuario.dto';
 import { UsuariosService } from '../service/usuario.service';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { Usuario } from '../entities/usuario.entity';
 
 @Controller('/usuarios')
 export class UsuariosController {
@@ -10,35 +11,32 @@ export class UsuariosController {
 
   @Post('/cadastrar')
   @HttpCode(HttpStatus.CREATED)
-  cadastrar(@Body() createDto: CreateUsuarioDto) {
+  async cadastrar(@Body() createDto: CreateUsuarioDto) {
     return this.service.cadastrar(createDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put(':id')
+  @Put('/atualizar')
   @HttpCode(HttpStatus.OK)
-  atualizar(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: UpdateUsuarioDto,
-  ) {
-    return this.service.atualizar(id, updateDto);
+  async atualizar(@Body() updateDto: UpdateUsuarioDto): Promise<Usuario> {
+    return this.service.atualizar(updateDto);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  listarUsuarios() {
+  async listarUsuarios() {
     return this.service.listarUsuarios();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  listarUsuariosId(@Param('id', ParseIntPipe) id: number) {
+  async listarUsuariosId(@Param('id', ParseIntPipe) id: number) {
     return this.service.listarUsuariosId(id);
   }
 
-  @Get('por-nome')
+  @Get('/nome/:nome')
   @HttpCode(HttpStatus.OK)
-  listarPorNome(@Query('nome') nome: string) {
+  async listarPorNome(@Param('nome') nome: string) {
     return this.service.listarPorNome(nome);
   }
 }
