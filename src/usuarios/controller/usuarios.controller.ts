@@ -8,14 +8,14 @@ import { UsuarioService } from '../service/usuario.service';
 export class UsuariosController {
   constructor(private readonly service: UsuarioService) { }
 
-  @Post('/cadastrar')
+  @Post()
   @HttpCode(HttpStatus.CREATED)
   cadastrar(@Body() createDto: CreateUsuarioDto) {
     return this.service.cadastrar(createDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('/atualizar/:id')
+  @Put('/:id')
   @HttpCode(HttpStatus.OK)
   atualizar(
     @Param('id', ParseIntPipe) id: number,
@@ -30,9 +30,9 @@ export class UsuariosController {
     return this.service.listarUsuarios();
   }
 
-  @Get('por-nome')
+  @Get('/:nome')
   @HttpCode(HttpStatus.OK)
-  listarPorNome(@Query('nome') nome: string) {
+  listarPorNome(@Param('nome') nome: string) {
     return this.service.listarPorNome(nome);
   }
 

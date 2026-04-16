@@ -30,15 +30,15 @@ export class OportunidadeController{
         return this.oportunidadeService.findAllByServico(servico);
     }
     
-    @Post()
+    @Post("/cadastrar")
     @HttpCode(HttpStatus.CREATED)
     create(@Body() oportunidade: Oportunidade): Promise<Oportunidade>{
         return this.oportunidadeService.create(oportunidade);
     }
 
-    @Put()
+    @Put("/:id")
     @HttpCode(HttpStatus.CREATED)
-    update(@Body() oportunidade: Oportunidade): Promise<Oportunidade>{
+    update(@Param() oportunidade: Oportunidade): Promise<Oportunidade>{
         return this.oportunidadeService.update(oportunidade);
     }
 

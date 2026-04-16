@@ -31,16 +31,16 @@ export class ClienteController {
     }
 
     //cadastrar cliente
-    @Post('/cadastrar')
+    @Post('/:id')
     @HttpCode(HttpStatus.CREATED)
-    create(@Body() cliente: Cliente): Promise<Cliente> {
+    create(@Param() cliente: Cliente): Promise<Cliente> {
         return this.clienteService.create(cliente);
     }
 
     //atualizar cliente
-    @Put('/atualizar')
+    @Put('/:id')
     @HttpCode(HttpStatus.OK)
-    update(@Body() cliente: Cliente): Promise<Cliente> {
+    update(@Param() cliente: Cliente): Promise<Cliente> {
         return this.clienteService.update(cliente);
     }
 
@@ -50,5 +50,4 @@ export class ClienteController {
     delete(@Param('id', ParseIntPipe) id: number) {
         return this.clienteService.delete(id);
     }
-
 }
