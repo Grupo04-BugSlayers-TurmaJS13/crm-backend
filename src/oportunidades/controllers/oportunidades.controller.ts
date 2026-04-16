@@ -36,9 +36,9 @@ export class OportunidadeController{
         return this.oportunidadeService.create(oportunidade);
     }
 
-    @Put("/:id")
+    @Put()
     @HttpCode(HttpStatus.CREATED)
-    update(@Param() oportunidade: Oportunidade): Promise<Oportunidade>{
+    update(@Body() oportunidade: Oportunidade): Promise<Oportunidade>{
         return this.oportunidadeService.update(oportunidade);
     }
 
