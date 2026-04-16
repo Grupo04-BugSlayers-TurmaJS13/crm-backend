@@ -30,15 +30,15 @@ export class UsuariosController {
     return this.service.listarUsuarios();
   }
 
-  @Get('/:id')
-  @HttpCode(HttpStatus.OK)
-  listarUsuariosId(@Param('id', ParseIntPipe) id: number) {
-    return this.service.listarUsuariosId(id);
-  }
-
   @Get('por-nome')
   @HttpCode(HttpStatus.OK)
   listarPorNome(@Query('nome') nome: string) {
     return this.service.listarPorNome(nome);
+  }
+
+  @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  listarUsuariosId(@Param('id', ParseIntPipe) id: number) {
+    return this.service.listarUsuariosId(id);
   }
 }
