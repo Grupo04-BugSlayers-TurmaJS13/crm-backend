@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Put, Body, Param, ParseIntPipe, Query, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
 import { CreateUsuarioDto } from '../dtos/create-usuario.dto';
 import { UpdateUsuarioDto } from '../dtos/update-usuario.dto';
-import { UsuariosService } from '../service/usuario.service';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { UsuarioService } from '../service/usuario.service';
 
 @Controller('/usuarios')
 export class UsuariosController {
-  constructor(private readonly service: UsuariosService) { }
+  constructor(private readonly service: UsuarioService) { }
 
   @Post('/cadastrar')
   @HttpCode(HttpStatus.CREATED)

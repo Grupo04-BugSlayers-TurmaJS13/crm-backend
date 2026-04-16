@@ -1,13 +1,13 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException, UseGuards } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Usuario } from "../entities/usuario.entity";
+import { Bcrypt } from "../../auth/bcrypt/bcrypt";
 import { ILike, Repository } from "typeorm";
 import { CreateUsuarioDto } from "../dtos/create-usuario.dto";
 import { UpdateUsuarioDto } from "../dtos/update-usuario.dto";
-import { Usuario } from "../entities/usuario.entity";
-import { Bcrypt } from "../../auth/bcrypt/bcrypt";
 
 @Injectable()
-export class UsuariosService {
+export class UsuarioService {
   constructor(
     @InjectRepository(Usuario)
     private usuarioRepository: Repository<Usuario>,
