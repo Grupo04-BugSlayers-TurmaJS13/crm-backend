@@ -36,7 +36,7 @@ export class UsuariosController {
     return this.service.listarUsuariosId(id);
   }
 
-  @Get('/por-nome')
+  @Get('por-nome')
   @HttpCode(HttpStatus.OK)
   listarPorNome(@Query('nome') nome: string) {
     return this.service.listarPorNome(nome);
