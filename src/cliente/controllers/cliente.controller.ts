@@ -31,7 +31,7 @@ export class ClienteController {
     }
 
     //cadastrar cliente
-    @Post('/:id')
+    @Post()
     @HttpCode(HttpStatus.CREATED)
     create(@Param() cliente: Cliente): Promise<Cliente> {
         return this.clienteService.create(cliente);
