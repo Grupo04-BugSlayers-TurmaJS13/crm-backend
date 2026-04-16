@@ -45,9 +45,7 @@ export class UsuarioService {
 
     // Criptografa a senha se ela for passada no update
     if (updateDto.senha) {
-      console.log('Senha antes de criptografar:', updateDto.senha);
       updateDto.senha = await this.bcrypt.criptografarSenha(updateDto.senha);
-      console.log('Senha após criptografar:', updateDto.senha);
     }
 
     Object.assign(usuarioExistente, updateDto);

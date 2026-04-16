@@ -15,7 +15,7 @@ export class UsuariosController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put(':id')
+  @Put('/atualizar/:id')
   @HttpCode(HttpStatus.OK)
   atualizar(
     @Param('id', ParseIntPipe) id: number,
@@ -30,13 +30,13 @@ export class UsuariosController {
     return this.service.listarUsuarios();
   }
 
-  @Get(':id')
+  @Get('/buscar/:id')
   @HttpCode(HttpStatus.OK)
   listarUsuariosId(@Param('id', ParseIntPipe) id: number) {
     return this.service.listarUsuariosId(id);
   }
 
-  @Get('por-nome')
+  @Get('/buscar/por-nome')
   @HttpCode(HttpStatus.OK)
   listarPorNome(@Query('nome') nome: string) {
     return this.service.listarPorNome(nome);
