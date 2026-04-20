@@ -33,14 +33,14 @@ export class ClienteController {
     //cadastrar cliente
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    create(@Param() cliente: Cliente): Promise<Cliente> {
+    create(@Body() cliente: Cliente): Promise<Cliente> {
         return this.clienteService.create(cliente);
     }
 
     //atualizar cliente
-    @Put('/:id')
+    @Put()
     @HttpCode(HttpStatus.OK)
-    update(@Param() cliente: Cliente): Promise<Cliente> {
+    update(@Body() cliente: Cliente): Promise<Cliente> {
         return this.clienteService.update(cliente);
     }
 
