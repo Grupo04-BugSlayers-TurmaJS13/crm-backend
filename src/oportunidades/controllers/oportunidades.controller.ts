@@ -5,7 +5,7 @@ import { StatusControle } from "../../util/statusControle";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { Http2ServerRequest } from "http2";
 
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @Controller("/oportunidades")
 export class OportunidadeController{
     constructor(

@@ -3,7 +3,7 @@ import { ClienteService } from "../services/cliente.service";
 import { Cliente } from "../entities/cliente.entity";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @Controller("/clientes")
 export class ClienteController {
 

@@ -15,7 +15,7 @@ export class UsuariosController {
     return this.service.cadastrar(createDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Put('/atualizar')
   @HttpCode(HttpStatus.OK)
   async atualizar(@Body() updateDto: UpdateUsuarioDto): Promise<Usuario> {
@@ -28,15 +28,15 @@ export class UsuariosController {
     return this.service.listarUsuarios();
   }
 
-  @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  async listarUsuariosId(@Param('id', ParseIntPipe) id: number) {
-    return this.service.listarUsuariosId(id);
-  }
-
   @Get('/nome/:nome')
   @HttpCode(HttpStatus.OK)
   async listarPorNome(@Param('nome') nome: string) {
     return this.service.listarPorNome(nome);
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async listarUsuariosId(@Param('id', ParseIntPipe) id: number) {
+    return this.service.listarUsuariosId(id);
   }
 }
